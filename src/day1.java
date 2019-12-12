@@ -14,6 +14,7 @@ public class day1 {
             in = new Scanner(new File("./input/inputDay1"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            in = new Scanner(System.in);
         }
 
         int fuelSum = 0;
@@ -24,8 +25,7 @@ public class day1 {
             fuelSum += mass;
             while (mass/3 > 0) {
                 mass = (mass / 3) - 2;
-                if (mass < 0) {
-                } else {
+                if (mass != 0) {
                     fuelSum += mass;
                 }
             }
