@@ -10,35 +10,108 @@ import java.util.Scanner;
  */
 public class day3 {
     public static void main(String[] args) {
-        ArrayList<Integer> cableAX = new ArrayList<Integer>();
+
+        //list for cable a coordinates
+        ArrayList<Integer> cableAX = new ArrayList<>();
         cableAX.add(0);
-        ArrayList<Integer> cableAY = new ArrayList<Integer>();
+        ArrayList<Integer> cableAY = new ArrayList<>();
         cableAY.add(0);
+
+        //list for cable b coordinates
+        ArrayList<Integer> cableBX = new ArrayList<>();
+        cableBX.add(0);
+        ArrayList<Integer> cableBY = new ArrayList<>();
+        cableBY.add(0);
+
 
         Scanner in = null;
 
         try {
-            in = new Scanner (new File("./input/inputDay3"));
+            in = new Scanner(new File("./input/inputDay3"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             in = new Scanner(System.in);
         }
 
+        //reads instructions for cable a to string array
         String tempIn = in.nextLine();
         String[] moveA = tempIn.split(",");
 
-        for (int i = 0; i<moveA.length; i++) {
-            String tempMove = moveA[i];
+        //reads instructions for cable b to string array
+        tempIn = in.nextLine();
+        String[] moveB = tempIn.split(",");
 
-            if (tempMove.charAt(0) == 'R') {
-                int tempMoveNumber = Integer.parseInt(tempMove.substring(1));
-                for (int j = 0; j < tempMoveNumber; j++) {
-                    int last = cableAX.get(cableAX.size() - 1);
-                    cableAX.add(j+last);
-                }
-            }
+        for (int i = 0; i < moveA.length; i++) {
+            //stores the current instructions in a variable
+            //String tempMoveX = moveA[i];
+
+            //gets the current x and y coordinate of cableA and stores them in variables
+            int lastX = cableAX.get(cableAX.size() - 1);
+            int lastY = cableAY.get(cableAY.size() - 1);
+
+            //checks which direction to increase cable length and does it
+            drawCableA(cableAX, cableAY, moveA, i, lastX, lastY);
         }
+    }
 
+    private static void drawCableA(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, String[] moveA, int i, int lastX, int lastY) {
+        switch (moveA[i].charAt(0)) {
+            //increases cable x coordinate
+            case 'R':
+                //stores the number by which to increase the x-coordinate
+                int tempMoveNumber = Integer.parseInt(moveA[i].substring(1));
+                //increases the x-coordinate by one (starting from the last known x-coordinate) and adds
+                //each increment to fully draw the cable
+                increaseCableX(cableAX, cableAY, lastX, lastY, tempMoveNumber);
+                break;
+            case 'L':
+                //stores the number by which to decrease the x-coordinate
+                tempMoveNumber = Integer.parseInt(moveA[i].substring(1));
+                //decreases x
+                decreaseCableAX(cableAX, cableAY, lastX, lastY, tempMoveNumber);
+                break;
+            case 'U':
+                //stores the number by which to increase the y-coordinate
+                tempMoveNumber = Integer.parseInt(moveA[i].substring(1));
+                //increases y
+                increaseCableAY(cableAX, cableAY, lastX, lastY, tempMoveNumber);
+                break;
+            case 'D':
+                tempMoveNumber = Integer.parseInt(moveA[i].substring(1));
+                //decreases y
+                decreaseCableAY(cableAX, cableAY, lastX, lastY, tempMoveNumber);
+                break;
+        }
+    }
 
+    private static void decreaseCableAY(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, int lastX, int lastY, int tempMoveNumber) {
+        for (int j = 0; j < tempMoveNumber; j++) {
+            cableAY.add(lastY - j - 1);
+            //adds static x
+            cableAX.add(lastX);
+        }
+    }
+
+    private static void increaseCableAY(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, int lastX, int lastY, int tempMoveNumber) {
+        for (int j = 0; j < tempMoveNumber; j++) {
+            cableAY.add(lastY + j + 1);
+            //adds static x
+            cableAX.add(lastX);
+        }
+    }
+
+    private static void decreaseCableAX(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, int lastX, int lastY, int tempMoveNumber) {
+        for (int j = 0; j < tempMoveNumber; j++) {
+            cableAX.add(lastX - j - 1);
+            cableAY.add(lastY);
+        }
+    }
+
+    private static void increaseCableX(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, int lastX, int lastY, int tempMoveNumber) {
+        for (int j = 0; j < tempMoveNumber; j++) {
+            cableAX.add(j + lastX + 1);
+            //adds static y-coordinate to y-list so each x-coordinate has a corresponding y-coordinate
+            cableAY.add(lastY);
+        }
     }
 }
