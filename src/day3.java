@@ -23,7 +23,7 @@ public class day3 {
         ArrayList<Integer> intersections = new ArrayList<>();
 
         ArrayList<Integer> distance = new ArrayList<>();
-        int shortDistance;
+        int shortDistance = 0;
 
         //list for cable b coordinates
         /*ArrayList<Integer> cableBX = new ArrayList<>();
@@ -73,7 +73,7 @@ public class day3 {
                                 intersections.add(cableBX);
                                 intersections.add(cableBY);
                                 distance.add((Math.abs(cableBX)+Math.abs(cableBY)));
-                                shortDistance = Math.abs(cableBX)+Math.abs(cableBY;
+                                shortDistance = Math.abs(cableBX)+Math.abs(cableBY);
                             }
                         }
                     }
@@ -119,9 +119,11 @@ public class day3 {
         }
 
         for (int i = 0; i < distance.size(); i++) {
-
+            if (distance.get(i) < shortDistance) {
+                shortDistance = distance.get(i);
+            }
         }
-        System.out.println(intersections);
+        System.out.print(shortDistance);
     }
 
     private static void drawCableA(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, String[] moveA, int i, int lastX, int lastY) {
