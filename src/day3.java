@@ -17,14 +17,22 @@ public class day3 {
         ArrayList<Integer> cableAY = new ArrayList<>();
         cableAY.add(0);
 
+        int cableBX = 0;
+        int cableBY = 0;
+
+        ArrayList<Integer> intersections = new ArrayList<>();
+
+        ArrayList<Integer> distance = new ArrayList<>();
+        int shortDistance;
+
         //list for cable b coordinates
-        ArrayList<Integer> cableBX = new ArrayList<>();
+        /*ArrayList<Integer> cableBX = new ArrayList<>();
         cableBX.add(0);
         ArrayList<Integer> cableBY = new ArrayList<>();
-        cableBY.add(0);
+        cableBY.add(0);*/
 
 
-        Scanner in = null;
+        Scanner in;
 
         try {
             in = new Scanner(new File("./input/inputDay3"));
@@ -52,6 +60,68 @@ public class day3 {
             //checks which direction to increase cable length and does it
             drawCableA(cableAX, cableAY, moveA, i, lastX, lastY);
         }
+
+        //find intersections between B and A
+        for (int i = 0; i< moveB.length; i++) {
+            int tempMoveNumber = Integer.parseInt(moveA[i].substring(1));
+            switch (moveB[i].charAt(0)) {
+                case 'R':
+                    for (int j = 0; j < tempMoveNumber; j++) {
+                        cableBX++;
+                        for (int k = 0; k < cableAX.size(); k++) {
+                            if (cableBX == cableAX.get(k) && cableBY == cableAY.get(k)) {
+                                intersections.add(cableBX);
+                                intersections.add(cableBY);
+                                distance.add((Math.abs(cableBX)+Math.abs(cableBY)));
+                                shortDistance = Math.abs(cableBX)+Math.abs(cableBY;
+                            }
+                        }
+                    }
+                    break;
+                case 'L':
+                    for (int j = 0; j < tempMoveNumber; j++) {
+                        cableBX--;
+                        for (int k = 0; k < cableAX.size(); k++) {
+                            if (cableBX == cableAX.get(k) && cableBY == cableAY.get(k)) {
+                                intersections.add(cableBX);
+                                intersections.add(cableBY);
+                                distance.add((Math.abs(cableBX)+Math.abs(cableBY)));
+                            }
+                        }
+                    }
+                    break;
+                case 'U':
+                    for (int j = 0; j < tempMoveNumber; j++) {
+                        cableBY++;
+                        for (int k = 0; k < cableAX.size(); k++) {
+                            if (cableBX == cableAX.get(k) && cableBY == cableAY.get(k)) {
+                                intersections.add(cableBX);
+                                intersections.add(cableBY);
+                                distance.add((Math.abs(cableBX)+Math.abs(cableBY)));
+                            }
+                        }
+                    }
+                    break;
+                case 'D':
+                    for (int j = 0; j < tempMoveNumber; j++) {
+                        cableBY--;
+                        for (int k = 0; k < cableAX.size(); k++) {
+                            if (cableBX == cableAX.get(k) && cableBY == cableAY.get(k)) {
+                                intersections.add(cableBX);
+                                intersections.add(cableBY);
+                                distance.add((Math.abs(cableBX)+Math.abs(cableBY)));
+                            }
+                        }
+                    }
+                    break;
+
+            }
+        }
+
+        for (int i = 0; i < distance.size(); i++) {
+
+        }
+        System.out.println(intersections);
     }
 
     private static void drawCableA(ArrayList<Integer> cableAX, ArrayList<Integer> cableAY, String[] moveA, int i, int lastX, int lastY) {
